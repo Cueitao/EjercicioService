@@ -27,10 +27,20 @@ public class Metodo {
 		HttpGet httpGet = new HttpGet(url + "'" + email + "'");
 		httpGet.setHeader(HttpHeaders.AUTHORIZATION, auth);
 		HttpResponse response = httpClient.execute(httpGet);
-//		
-//		int statusCode = response.getStatusLine().getStatusCode();
-//		System.out.println(statusCode);
+
+		HttpEntity entity = response.getEntity();
+		String content = EntityUtils.toString(entity);
+		httpClient.close();
+		return content;
+	}
+	
+public static String metGetId(String url, String auth, String id) throws Exception {
 		
+		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+		HttpGet httpGet = new HttpGet(url + "/" + id);
+		httpGet.setHeader(HttpHeaders.AUTHORIZATION, auth);
+		HttpResponse response = httpClient.execute(httpGet);
+
 		HttpEntity entity = response.getEntity();
 		String content = EntityUtils.toString(entity);
 		httpClient.close();
@@ -40,7 +50,7 @@ public class Metodo {
 	public static void metDelete(String url, String auth, String id) throws Exception {
 		
 		CloseableHttpClient httpclient = HttpClientBuilder.create().build();
-		HttpDelete httpDelete = new HttpDelete(url + "/" + id);
+		HttpDelete httpDelete = new HttpDelete(url + "/" + Long.parseLong(id));
 		
 		httpDelete.setHeader(HttpHeaders.AUTHORIZATION, auth);
 
@@ -63,6 +73,7 @@ public class Metodo {
 		if (statusCode !=201) 
 			return "Error de caracteres";
 		httpClient.close();
+		
 		return "El contacto se ha creado con exito";
 	}
 	

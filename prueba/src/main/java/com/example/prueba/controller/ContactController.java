@@ -23,19 +23,19 @@ public class ContactController {
 	@RequestMapping(value= "/rn/contacts/{email}", method = RequestMethod.GET)
 	private ResponseEntity<Contact> buscarRn(@PathVariable("email") String email) throws Exception {
 		
-		return new ResponseEntity<Contact> (contactService.clientBuscarRn(email), HttpStatus.OK);
+		return new ResponseEntity<Contact> (contactService.buscarRn(email), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value= "/eloqua/contacts/{email}", method = RequestMethod.GET)
 	private  ResponseEntity<Contact> buscarEloqua(@PathVariable("email") String email) throws Exception {
 		
-		return new ResponseEntity<Contact> (contactService.clientBuscarEloqua(email), HttpStatus.OK);
+		return new ResponseEntity<Contact> (contactService.buscarEloqua(email), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value= "/osc/contacts/{email}", method = RequestMethod.GET)
 	private  ResponseEntity<Contact> buscarOsc(@PathVariable("email") String email) throws Exception {
 		
-		return new ResponseEntity<Contact> (contactService.clientBuscarOsc(email), HttpStatus.OK);
+		return new ResponseEntity<Contact> (contactService.buscarOsc(email), HttpStatus.OK);
 
 	}
 	
@@ -46,30 +46,30 @@ public class ContactController {
 	@RequestMapping(value= "/rn/contacts/del/{email}", method = {RequestMethod.DELETE})
 	public ResponseEntity <String> eliminarRn(@PathVariable("email") String email) throws Exception {
 
-		return new ResponseEntity <String> (contactService.clientEliminarRn(email), HttpStatus.OK);
+		return new ResponseEntity <String> (contactService.eliminarRn(email), HttpStatus.OK);
 		
 	}
 	
 	@RequestMapping(value= "/eloqua/contacts/del/{email}", method = {RequestMethod.DELETE})
 	public ResponseEntity <String> eliminarEloqua(@PathVariable("email") String email) throws Exception {
 
-		return new ResponseEntity <String> (contactService.clientEliminarEloqua(email), HttpStatus.OK);
+		return new ResponseEntity <String> (contactService.eliminarEloqua(email), HttpStatus.OK);
 		
 	}
 	
 	@RequestMapping(value= "/osc/contacts/del/{email}", method = {RequestMethod.DELETE})
 	public ResponseEntity <String> eliminarOsc(@PathVariable("email") String email) throws Exception {
 
-		return new ResponseEntity <String> (contactService.clientEliminarOsc(email), HttpStatus.OK);
+		return new ResponseEntity <String> (contactService.eliminarOsc(email), HttpStatus.OK);
 		
 	}
 	
 	@RequestMapping(value= "/tres/contacts/del/{email}", method = {RequestMethod.DELETE})
 	public  ResponseEntity <String> eliminarTres(@PathVariable("email") String email) throws Exception {
 
-		return new ResponseEntity <String> (contactService.clientEliminarRn(email) + "\n\n"
-										  + contactService.clientEliminarEloqua(email) + "\n\n"
-										  + contactService.clientEliminarOsc(email), HttpStatus.OK);
+		return new ResponseEntity <String> (contactService.eliminarRn(email) + "\n\n"
+										  + contactService.eliminarEloqua(email) + "\n\n"
+										  + contactService.eliminarOsc(email), HttpStatus.OK);
 		
 	}
 	

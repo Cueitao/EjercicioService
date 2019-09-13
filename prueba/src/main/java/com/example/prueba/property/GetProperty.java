@@ -37,5 +37,8 @@ public class GetProperty {
 	    public static String getOscLead(){
 	    	return PROPERTIES.getString("buscarLead");
 	    }
+	    public static String getBuscarLead(){
+	    	return PROPERTIES.getString("buscarLeadEmail");
+	    }
 
 }
