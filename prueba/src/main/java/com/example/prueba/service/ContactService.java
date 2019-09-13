@@ -34,7 +34,6 @@ public class ContactService {
 		String conte = Metodo.metGet(GetProperty.getRnEmail(), Metodo.authRn, email);	
 		JSONObject jsonObject = new JSONObject(conte);
 		JSONArray item = (JSONArray) jsonObject.get("items");
-		System.out.println(item);
 
 			if(item != null && item.length() > 0 ){
 				
@@ -85,8 +84,12 @@ public class ContactService {
 					return "El email: " + address + " ya existe en OSvC";
 				
 				else 
-
-					return Metodo.metPost(GetProperty.getRnUrl(), Metodo.authRn,json) + " OSvC";
+					Metodo.metPost(GetProperty.getRnUrl(), Metodo.authRn,json);
+					
+					Contact cont2 = buscarRn(address);
+					return "El contacto " + cont2.getNombre() + " " 
+										  + cont2.getApellido() + "\n con email: " 
+										  + cont2.getEmail() + " se ha creado con éxito en OSvC";
 				
 	}
 			
@@ -165,7 +168,11 @@ public class ContactService {
 				return "El email: " + emails + " ya existe en Eloqua";
 		
 			else {
-				return Metodo.metPost(GetProperty.getEloquaUrl(),Metodo.authEloqua,json) + " Eloqua";
+				Metodo.metPost(GetProperty.getEloquaUrl(),Metodo.authEloqua,json);
+				Contact cont2 = buscarRn(emails);
+				return "\nEl contacto " + cont2.getNombre() + " " 
+									  + cont2.getApellido() + "\n con email: " 
+									  + cont2.getEmail() + " se ha creado con éxito en Eloqua";
 			}
 				
 	}
@@ -227,27 +234,37 @@ public class ContactService {
 													+ "\nnombre: " + datos.getNombre()
 													+ "\napellido: " + datos.getApellido()
 													+ "\nemail: " + datos.getEmail()
-					+ "\nY " + resLead;
+													+ "\n" + resLead;
 		}
 	}
 			
 	public String crearOsc(String json) throws Exception {
 				
 		JSONObject jsonObject = new JSONObject(json);
-
 		String emails = jsonObject.getString("EmailAddress");
-
+		
 		Contact cont = buscarOsc(emails);
+		String content = Metodo.metGet(GetProperty.getBuscarLead(), Metodo.authOsc, emails);
+		
+		JSONObject jsonObject2 = new JSONObject(content);
+		JSONArray item = (JSONArray) jsonObject2.get("items");
 
-			if(cont.getId()!=null)
+			if(cont.getId()!=null) {
+				if(item != null && item.length() > 0 ) {
+					return "El email: " + emails + " ya existe en OSC y ya tiene un Lead asociado";
+				}
 				
-				return "El email: " + emails + " ya existe en OSC";
+				convertObjectLeadOsc(json);
+				return "El email: " + emails + " ya existe en OSC y se le ha asociado un Lead";
+			}
 			
-			else  	{
-					
-					String result = Metodo.metPost(GetProperty.getOscUrl(), Metodo.authOsc, json) + " OSC";
+			else{
+					Metodo.metPost(GetProperty.getOscUrl(), Metodo.authOsc, json);
 					convertObjectLeadOsc(json);
-					return result;
+					Contact cont2 = buscarRn(emails);
+					return "\nEl contacto " + cont2.getNombre() + " " 
+										  + cont2.getApellido() + "\n con email: " 
+										  + cont2.getEmail() + " se ha creado con éxito en OSC";
 			}
 	}
 	
@@ -262,8 +279,8 @@ public class ContactService {
 		
 			try {
 				String contactJSON = new ObjectMapper().writeValueAsString(contactOsc);
-				String result = crearOsc(contactJSON);				
-				return result;
+				
+				return crearOsc(contactJSON);
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -285,8 +302,7 @@ public class ContactService {
 		
 			try {
 				String leadJSON = new ObjectMapper().writeValueAsString(lead);
-				String crearLead = Metodo.metPost(GetProperty.getOscLead(), Metodo.authOsc, leadJSON);
-				return crearLead;
+				return Metodo.metPost(GetProperty.getOscLead(), Metodo.authOsc, leadJSON);
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -301,8 +317,7 @@ public class ContactService {
 		JSONObject jsonObject = new JSONObject(content);
 		JSONArray item = (JSONArray) jsonObject.get("items");
 		
-			if(item != null && item.length() > 0 ){
-				
+			if(item != null && item.length() > 0 ){	
 				for (int i = 0; i<item.length(); i++) {
 					
 					Long longId = item.getJSONObject(i).getLong("LeadId");
@@ -310,10 +325,10 @@ public class ContactService {
 					
 					Metodo.metDelete(GetProperty.getOscLead(), Metodo.authOsc, leadId);
 				}
-				return "los Leads asociados";
+				return "Se han elimininado los Leads asociados";
 			}
 			
-			else return "Error en la eliminación de los Leads";
+			else return "No hay leads asociados a este contacto";
 	
 	}
 }

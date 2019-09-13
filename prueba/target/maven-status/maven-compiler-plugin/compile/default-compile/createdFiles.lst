@@ -1,4 +1,3 @@
-com\example\prueba\controller\EloquaController.class
 com\example\prueba\metodo\Metodo.class
 com\example\prueba\model\rightNow\Emails.class
 com\example\prueba\property\GetProperty.class
@@ -6,7 +5,6 @@ com\example\prueba\service\UrlConnectionService.class
 com\example\prueba\model\rightNow\ContactRn.class
 com\example\prueba\model\rightNow\Name.class
 com\example\prueba\controller\ContactController.class
-com\example\prueba\service\EloquaService.class
 com\example\prueba\model\Contact.class
 com\example\prueba\model\rightNow\AddressType.class
 com\example\prueba\model\lead\Lead.class
