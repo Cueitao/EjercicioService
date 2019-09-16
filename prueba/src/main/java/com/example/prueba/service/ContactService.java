@@ -74,23 +74,22 @@ public class ContactService {
 				
 	public String crearRn(String json) throws Exception {
 				
-			JSONObject jsonObject = new JSONObject(json);
-			JSONObject emails =(JSONObject) jsonObject.get("emails");
-			String address = emails.getString("address");
+		JSONObject jsonObject = new JSONObject(json);
+		JSONObject emails =(JSONObject) jsonObject.get("emails");
+		String address = emails.getString("address");
 
-			Contact cont = buscarRn(address);
+		Contact cont = buscarRn(address);
 				
-				if(cont.getId()!=null)
-					return "El email: " + address + " ya existe en OSvC";
+			if(cont.getId()!=null)
+				return "El email: " + address + " ya existe en OSvC";
 				
-				else 
-					Metodo.metPost(GetProperty.getRnUrl(), Metodo.authRn,json);
+			else 
+				Metodo.metPost(GetProperty.getRnUrl(), Metodo.authRn,json);
 					
-					Contact cont2 = buscarRn(address);
-					return "El contacto " + cont2.getNombre() + " " 
-										  + cont2.getApellido() + "\n con email: " 
-										  + cont2.getEmail() + " se ha creado con éxito en OSvC";
-				
+				Contact cont2 = buscarRn(address);
+				return "El contacto " + cont2.getNombre() + " " 
+									  + cont2.getApellido() + "\n con email: " 
+									  + cont2.getEmail() + " se ha creado con éxito en OSvC";
 	}
 			
 	public String convertObjectRn(String json) {
@@ -328,8 +327,7 @@ public class ContactService {
 				return "Se han elimininado los Leads asociados";
 			}
 			
-			else return "No hay leads asociados a este contacto";
-	
+			else return "No hay leads asociados a este contacto";	
 	}
 }
 
